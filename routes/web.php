@@ -3,14 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScrapeController;
+use App\Models\SearchQuery;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', function () {
-    $anzeigen = [];
-    $query = '';
-    return view('welcome', compact('anzeigen', 'query'));
+    return view('start');
 });
 
-Route::get('/search', [ScrapeController::class, 'search'])->name('search');
+Route::post('/search', [SearchController::class, 'store'])->name('search');
+
+Route::get('/search/{id}', [SearchQuery::class])->name('results');
 
 Route::get('/scrape/next', function(Request $request) {
     $query = $request->input('query');
